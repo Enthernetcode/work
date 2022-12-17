@@ -1,0 +1,182 @@
+*{
+    padding: 0%;
+    margin: 0%;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+body{
+    background-color: #fefefe;
+
+}
+
+nav{
+    background-color: #202020;
+
+}
+nav select{
+    position: relative;
+    top: 2px;
+    border: 2px solid #202020;
+    background-color: #202020;
+    color: #626262;
+}
+nav label{
+    position: relative;
+    color: #626262;
+    font-weight: bold;
+    margin-left: 100px;
+    top: 2px;
+}
+.shift{
+    display: flex;
+    margin-left: 71%;
+    position: relative;
+    top: -20px;
+}
+nav p{
+    color: #3db44b;
+}
+
+
+
+header{
+    text-align: left;
+    margin-left: 130px;
+    margin-top: 50px;
+    margin-bottom: -40px;
+
+}
+
+.form{
+    background-color: #f2f1f6;
+    margin: 50px;
+    padding: 50px;
+    width: 550px;
+    height: 400px;
+    margin-left: 10%;
+}
+h4{
+    background-color: #bff3a7;
+    padding: 10px;
+    border: 10%;
+    position: relative;
+    width: 300px;
+    left: 156px;
+    bottom: 35px;
+    color: #18772f;
+}
+h5{
+    background-color: #bff3a7;
+    padding: 10px;
+    border: 10%;
+    position: relative;
+    width: 300px;
+    left: 156px;
+    bottom: 35px;
+    color: #18772f;
+    border-radius: 2px;
+    font-size: 13px;
+}
+.form input{
+    position: relative;
+    left: 160px;
+    bottom: 23px;
+    font-size: 13px;
+    padding: 3px;
+    width: 300px;
+    border: 2px solid transparent;
+
+}
+.amount{
+    position: relative;
+    left: 19%;
+}
+.name{
+    position: relative;
+    left: 22%;
+}
+
+.form select{
+    position: relative;
+    left: 29px;
+    padding: 5px;
+    width: 300px;
+    border: 2px solid transparent;
+    bottom: 10px;
+}
+
+.form p{
+    font-size: 15px;
+    
+}
+
+.btn{
+    margin: 20px;
+    padding: 10px;
+    width: 100px;
+    height: 6vh;
+    background-color: #3db44b;
+    color: #fefefe;
+    border: 2px solid transparent;
+    border-radius: 2px;
+    margin-left: 20%;
+    transition: transform.4s;
+    cursor: pointer;
+}
+.btn:hover{
+    background: #3db44b;
+    border: 2px solid #3db44b;
+    transform: scale(1.2);
+}
+.btn-success{
+    background-color: #3eb748;
+    padding: 5px;
+    position: fixed;
+    height: 8.3vh;
+    top: 1px;
+    border: 2px solid transparent;
+    right: 0%;
+    color: white;
+    cursor: pointer;
+}
+span{
+    color: #ba354a;
+    position: relative;
+    left: 1%;
+    top: 3px;
+    font-weight: bold;
+}
+.FAQ{
+    margin: 50px;
+    margin-left: 128px;
+}
+
+.volume{
+    position: relative;
+    top: 9px;
+    left: 60px;
+    color: #626262;
+}
+.reed{
+    position: relative;
+    left: 1%;
+    top: 6px;  
+}
+.person{
+    position: relative;
+    left: 22%;
+}
+.mail{
+    position: relative;
+    left: 17%;
+}
+.phone{
+    position: relative;
+    left: 12%;
+}
+.united{
+    position: relative;
+    width: 20px;
+    left: 7%;
+    top: 4px;
+}
