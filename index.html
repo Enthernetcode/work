@@ -54,7 +54,7 @@
     <div class="FAQ">
      <h3>Frequently Asked Questions</h3>
      <br>
-     <p><a href="#">Can I deposit/withdraw Funds via Electronic Wallet?</a></p>
+     <p><a href="#" onclick="alert()">Can I deposit/withdraw Funds via Electronic Wallet?</a></p>
      <br>
      <p><a href="#" onclick="myalert()">How much time does it take to withdraw Funds?</a></p>
      </div>
@@ -66,6 +66,12 @@
         alert("2-3 hours\n " + 
 
             "In most cases, withdrawals are almost instant and normally should take no longer than 2-3 hours to be processed. Note: Withdrawals will be sent from an address that differs from your crypto's deposit address.");
+}
+  function alert() {
+	alert("Can someone else withdraw my funds to another bitcoin wallet address ? \n" +
+	    "No, because your bitcoin wallet address has already been attached to your slot and can’t be changed. This gives our investors a certain level of control over their funds." +
+"Our platform is setup this way to give our clients control over their investments." +
+"In Addition: The Bitcoin wallet address attached to your slot is permanent and any withdrawal processed will only go to the address.");
 }
 </script>
   </body>
