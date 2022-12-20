@@ -131,8 +131,8 @@ h5{
 .btn-success{
     background-color: #3eb748;
     padding: 5px;
-    position: relative;
-    height: 7.2vh;
+    position: fixed;
+    height: 7.0vh;
     top: 1px;
     border: 2px solid transparent;
     right: 0%;
