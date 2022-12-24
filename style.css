@@ -95,7 +95,11 @@ h5{
     position: relative;
     left: 22%;
 }
-
+.amm{
+    position: relative;
+    display: flex;
+    top: 2.5%;
+}
 .form select{
     position: relative;
     left: 29px;
