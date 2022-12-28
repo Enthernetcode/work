@@ -97,8 +97,7 @@ h5{
 }
 .amm{
     position: relative;
-    display: flex;
-    top: 2.5%;
+    top: 5%;
 }
 .form select{
     position: relative;
