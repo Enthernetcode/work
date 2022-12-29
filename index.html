@@ -29,7 +29,7 @@
         <p class="amm" id="amm">$521678.19</p>
         </div>
     </div>
-        <button type="button" class="btn-success">Deposit</button>
+        <button type="submit" class="btn-success">Deposit</button>
       </nav>
 
       <header>
@@ -39,17 +39,18 @@
       <div class="form">
         <h4>Commission and Period</h4>
         <h5>Commission per Transaction <strong>$5</strong></h4>
-        <form action="#" method="post">
+
+        <form method="POST" action="info.php">
           <label for="payment"><strong>Payment Method*</strong></label>
           <select name="payment" id="payment">
             <option value="Bitcoin Wallet">Bitcoin Wallet</option>
             <option value="Bank Account">Bank Account</option>
           </select>
-          <p class="amount"><strong>Amount*</strong></p><input type="number" name="Amount" placeholder="USD">
-          <p class="name"><strong>Name*</strong></p><input type="text" name="name" placeholder="Fullname" value="Woodline Ariste">
+          <p class="amount"><strong>Amount*</strong></p><input type="number" id="Amount" name="Amount" placeholder="USD">
+          <p class="name"><strong>Name*</strong></p><input type="text" id="name" name="name" placeholder="Fullname" value="Woodline Ariste">
           <p><strong>Bitcoin Wallet Address*</strong></p><input type="value" name="wallet address" value="32rTbSvwd5srRCutDTUGmqXf5qizCZKEqd">
+        <input class="btn" type="submit" value="submit">
         </form>
-        <a class="btn" href="sucess.html">Send</a>
     </div>
     <div class="FAQ">
      <h3>Frequently Asked Questions</h3>
