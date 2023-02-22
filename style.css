@@ -72,7 +72,7 @@ h5{
     position: relative;
     width: 300px;
     left: 156px;
-    bottom: 35px;
+    bottom: 25px;
     color: #18772f;
     border-radius: 2px;
     font-size: 13px;
@@ -137,6 +137,7 @@ input[type=submit]{
     border-radius: 2px;
     margin-left: 20%;
     transition: transform.4s;
+    left: 20px;
     cursor: pointer;
 }
 .btn:hover{

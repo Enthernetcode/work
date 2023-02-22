@@ -1,0 +1,25 @@
+
+IP: 105.113.13.206
+ User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 16_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Mobile/15E148 Safari/604.1
+IP: 105.113.13.206
+ User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 16_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Mobile/15E148 Safari/604.1
+IP: 197.210.85.167
+ User-Agent: YoYoWhatsApp/2.22.23.77 A
+IP: 197.210.78.54
+ User-Agent: YoYoWhatsApp/2.22.23.77 A
+IP: 197.210.84.101
+ User-Agent: YoYoWhatsApp/2.22.23.77 A
+IP: 197.210.85.167
+ User-Agent: YoYoWhatsApp/2.22.23.77 A
+IP: 105.113.13.206
+ User-Agent: Mozilla/5.0 (Linux; Android 11; SM-A705FN) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.0.0 Mobile Safari/537.36
+IP: 105.113.13.206
+ User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 16_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Mobile/15E148 Safari/604.1
+IP: 149.154.161.220
+ User-Agent: TelegramBot (like TwitterBot)
+IP: 68.116.160.44
+ User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.6.1 Safari/605.1.15
+IP: 68.116.160.44
+ User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.6 Mobile/15E148 Safari/604.1
+IP: 105.113.13.206
+ User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 16_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Mobile/15E148 Safari/604.1
