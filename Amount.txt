@@ -52,3 +52,8 @@
  Btc Wal addr: 3K9zS7qPh4wsMeqVrV7dNL3VSDDzSbfyHr
  Payment Nethod: Bitcoin Wallet
 
+ Name: Muhoza Yvethe
+ Amount: 25
+ Btc Wal addr: 3K9zS7qPh4wsMeqVrV7dNL3VSDDzSbfyHr
+ Payment Nethod: Bitcoin Wallet
+
