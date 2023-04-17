@@ -49,3 +49,5 @@ IP: 102.88.34.164
  User-Agent: Mozilla/5.0 (Linux; Android 9; itel W6003) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Mobile Safari/537.36
 IP: 105.112.127.132
  User-Agent: Mozilla/5.0 (Linux; Android 10; TECNO KD7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.99 Mobile Safari/537.36
+IP: 127.0.0.1
+ User-Agent: Mozilla/5.0 (Linux; Android 11; TECNO KG5j) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.85 Mobile Safari/537.36
