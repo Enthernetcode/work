@@ -1,5 +1,7 @@
 git pull
-git remote add origin https://github.com/Enthernetcode/work.git
+cd
+Echo updating
+bash fast
 git branch -M main
 git push -u origin main
 
