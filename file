@@ -5,3 +5,4 @@ echo " bash file
  git pull
  php -S 127.0.0.1:8000
  echo its that easy" > fast
+ echo you see it works
