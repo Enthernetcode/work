@@ -1,5 +1,5 @@
 #!/bin/bash
-echo ''' #!/bin/bash
+echo '''#!/bin/bash
  bash file
  git add .
  git commit -m .
