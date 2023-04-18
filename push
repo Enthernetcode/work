@@ -1,7 +1,5 @@
 git pull
-cd
-Echo updating
-bash fast
+git add .
 git branch -M main
 git push -u origin main
 
