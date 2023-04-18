@@ -1,5 +1,4 @@
-#!/bin/bash
-echo ''' bash file
+ bash file
  git add .
  git commit -m .
  git config pull.rebase true
@@ -7,4 +6,4 @@ echo ''' bash file
  php -S 127.0.0.1:8000
  echo its that easy
  echo you see it works
- echo "\n \n \n is this not easier \n \n \n " ''' > fast
+ echo "\n \n \n is this not easier \n \n \n " 
