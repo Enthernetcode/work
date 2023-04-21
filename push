@@ -1,5 +1,5 @@
-git pull
 git add .
-git branch -M main
+git commit -M main
+git pull
 git push -u origin main
 
