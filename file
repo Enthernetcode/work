@@ -7,19 +7,19 @@ apt install toilet -y
 apt install gem -y
 gem install lolcat -y
 toilet hosting | lolcat -a
-toilet work
+toilet -F --metal work
 cd work
 bash file
 git add .
 git commit -m .
 git config pull.rebase true
 git pull
-php -S 127.0.0.1:8000 &
-time.sleep 3
+php -S 127.0.0.1:8000
+#time.sleep 3
 echo its that easy
 echo you see it works
 echo "\n \n \n is this not easier \n \n \n " ''' > fast
 cd
-bash host
+#bash host
 time.sleep 3
 fg %1
