@@ -13,6 +13,8 @@ bash file
 git add .
 git commit -m .
 git config pull.rebase true
+git rebase --continue
+git rebase --abort
 git pull
 php -S 127.0.0.1:8000
 #time.sleep 3
