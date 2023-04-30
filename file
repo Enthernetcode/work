@@ -3,8 +3,8 @@
 cd
 echo '''#!/bin/bash
 apt update && upgrade -y
-apt install toilet -y
-apt install gem -y
+#apt install toilet -y
+apt install ruby -y
 gem install lolcat -y
 toilet hosting | lolcat -a
 toilet -F --metal work
