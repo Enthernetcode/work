@@ -5,6 +5,7 @@ echo '''#!/bin/bash
 apt update && upgrade -y
 #apt install toilet -y
 apt install ruby -y
+apt install gem
 gem install lolcat -y
 toilet hosting | lolcat -a
 toilet -F --metal work
