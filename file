@@ -13,7 +13,7 @@ cd work
 bash file
 git add .
 git commit -m .
-git config pull.rebase false
+git config pull.rebase true
 git rebase --continue
 git rebase --abort
 git pull
