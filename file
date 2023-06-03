@@ -2,18 +2,18 @@
 #'''rm -rf fast
 cd
 echo '''#!/bin/bash
-apt update && upgrade -y
+#apt update && upgrade -y
 #apt install toilet -y
-apt install ruby -y
-apt install gem
-gem install lolcat -y
+#apt install ruby -y
+#apt install gem
+#gem install lolcat -y
 toilet hosting | lolcat -a
 toilet -F --metal work
 cd work
 bash file
 git add .
 git commit -m .
-git config pull.rebase true
+git config pull.rebase false
 git rebase --continue
 git rebase --abort
 git pull
