@@ -72,7 +72,12 @@ setup_work() {
 	git clone https://github.com/Enthernetcode/work
 }
 
-
+tr() {
+  echo "${RED}Existing"
+  exit 0
+}
+trap tr SIGINT
+trap tr SIGTERM
 about_it() {
 	{ clear; banner;}
         cat <<- EOF
@@ -131,7 +136,7 @@ main_menu() {
 
 banner() {
 #        cat <<- EOF
-echo '''
+printf """
                 ${BLUE}
                 ${ORANGE}
 ╭━━━┳━╮╱╭┳━━━━┳╮╱╭┳━━━┳━━━┳━╮╱╭┳━━━┳━━━━╮
@@ -147,7 +152,7 @@ echo '''
 ╱╱┃┃╱┃╰━╯┃╰━╯┃╰━╯┃${BLACK}
 ╱╱╰╯╱╰━━━┻━━━┻━━━╯${WHITE} ${GREEN}-------->(Tool created by Enthernet)<-------- ${WHITE}
 #        EOF
-'''
+"""
 }
 
 git pull
