@@ -32,6 +32,7 @@ HOST=127.0.0.1
 setup_site() {
 	{ clear; banner;}
 	cd work
+        git add . &&  git commit -m . &&  git pull
 	echo  "${ORANGE}Choose ${BLUE}Port Numbee ${PURPLE}To Host On: ${RED}"
 	read PORT
 	echo  "\n${RED}[${WHITE}-${RED}]${BLUE} Starting PHP server..."
@@ -54,11 +55,13 @@ update_repo() {
 
 downloads() {
 	apt update &&  apt upgrade
-	apt install php -y
-	pkg install php -y
-	apt install ssh -y
-	pkg install ssh -y
-	apt install toilet -y
+        for i in php openssh toilet figlet
+         if ! command -v $i; then
+          echo "${ORANGE}[${RED}+${ORANGE}]${GREEN} $i package doesn't exist"
+	  echo "${ORANGE}[${RED}+${ORANGE}]${GREEN} installing package $i"
+	  apt install $i -y | pkg install $i -y
+	 else
+	  "${GREEN}[${ORANGE}+${GREEN}]${CYAN} package $i exist\n${REDBG}* ${ORANGE}continuing script"
 }
 
 
@@ -74,6 +77,7 @@ setup_work() {
 
 tr() {
   echo "${RED}Existing"
+  kill_pid
   exit 0
 }
 trap tr SIGINT
@@ -155,11 +159,10 @@ printf """
 """
 }
 
-git pull
-#banner
+downloads
+git_setup
 #main_menu
 #about_it
-#kill_pid
 setup_site
 host
 #help_1
