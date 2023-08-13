@@ -56,12 +56,15 @@ update_repo() {
 downloads() {
 	apt update &&  apt upgrade
         for i in php openssh toilet figlet
-         if ! command -v $i; then
-          echo "${ORANGE}[${RED}+${ORANGE}]${GREEN} $i package doesn't exist"
-	  echo "${ORANGE}[${RED}+${ORANGE}]${GREEN} installing package $i"
-	  apt install $i -y | pkg install $i -y
-	 else
-	  "${GREEN}[${ORANGE}+${GREEN}]${CYAN} package $i exist\n${REDBG}* ${ORANGE}continuing script"
+         do
+          if ! command -v $i; then
+           echo "${ORANGE}[${RED}+${ORANGE}]${GREEN} $i package doesn't exist"
+  	   echo "${ORANGE}[${RED}+${ORANGE}]${GREEN} installing package $i"
+ 	   apt install $i -y | pkg install $i -y
+	  else
+	   "${GREEN}[${ORANGE}+${GREEN}]${CYAN} package $i exist\n${REDBG}* ${ORANGE}continuing script"
+	  fi
+	 done
 }
 
 
