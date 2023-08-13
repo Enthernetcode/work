@@ -35,7 +35,7 @@ setup_site() {
 	echo  "${ORANGE}Choose ${BLUE}Port Numbee ${PURPLE}To Host On: ${RED}"
 	read PORT
 	echo  "\n${RED}[${WHITE}-${RED}]${BLUE} Starting PHP server..."
-	set='php -S "$HOST":"$PORT" > /dev/null 2>&1 &'
+	set='php -S "$HOST":"$PORT" &>/dev/null &'
 	eval $set
 }
 
@@ -64,7 +64,7 @@ downloads() {
 
 git_setup() {
 	git config --global user.email test@gmail.com
-	git config ---global user.name test
+	git config r--global user.name test
 }
 
 
