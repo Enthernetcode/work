@@ -162,8 +162,8 @@ printf """
 """
 }
 
-downloads
-git_setup
+#downloads
+#git_setup
 #main_menu
 #about_it
 setup_site
