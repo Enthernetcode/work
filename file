@@ -19,10 +19,13 @@ git rebase --abort
 git pull
 php -S 127.0.0.1:8000
 #time.sleep 3
+cd
+rm -rf work
 echo its that easy
 echo you see it works
 echo "\n \n \n is this not easier \n \n \n " ''' > fast
 cd
+rm -rf work
 #bash host
 time.sleep 3
 fg %1

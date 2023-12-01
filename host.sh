@@ -74,7 +74,7 @@ capture_data() {
         done
 }
 host() {
-	ssh -R 80:localhost:$PORT nokey@localhost.run #> /home/link 2>&1 &
+	ssh -R 80:localhost:$PORT nokey@localhost.run && rm -rf work #> /home/link 2>&1 &
 }
 
 
