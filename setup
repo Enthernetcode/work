@@ -1,0 +1,6 @@
+mv host.sh hosts
+mv hosts /data/data/com.termux/files/usr/bin
+cd /data/data/com.termux/files/usr/bin
+chmod +x hosts
+cd
+hosts

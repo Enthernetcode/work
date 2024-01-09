@@ -204,5 +204,7 @@ git_setup
 #main_menu
 #about_it
 setup_site
+git rebase false
+git pull
 host
 #help_1
