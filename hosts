@@ -1,8 +1,8 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
 # Your Railway app URL
-SERVER_URL="http://mailer.enthernetservices.com:8007/register"
-CHECK_URL="http://mailer.enthernetservices.com:8007/check"
+SERVER_URL="http://170.130.55.163:8007/register"
+CHECK_URL="http://170.130.55.163:8007/check"
 
 # Generate a unique user ID based on hostname + MAC address
 #generate_user_id() {
